@@ -11,7 +11,7 @@ function Hands(canvas)
 	this.color = '';
 	this.lineCap = '';
 	this.lineWidth = 0;
-	this.rotation = ( Math.PI * 2 ) / 4;
+	this.rotation = ( Math.PI * 2 ) / 2;
 	
 	this.draw = function( ctx )
 	{
@@ -36,7 +36,7 @@ function AnalogClock()
 	this.context = this.canvas.getContext( '2d' );
 	
 	this.margin = 30;
-	this.rotation = ( Math.PI * 2 ) / 4; // Rotate 0 rad to be at top of circle
+	this.rotation = ( Math.PI * 2 ) / 2; // Rotate 0 rad to be at top of circle
 	this.centerX = this.canvas.width / 2;
 	this.centerY = this.canvas.height / 2;
 	
@@ -117,11 +117,16 @@ function AnalogClock()
 		this.canvas.height = window.innerHeight - this.margin;
 	};
 	
+	this.clearCanvas = function()
+	{
+		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+	}
+	
 	this.draw = function() 
 	{
 		var now = new Date();
 		
-		this.resizeCanvas();
+		this.clearCanvas();
 		this.drawClockFace();
 		this.drawHourHand( now.getHours() );
 		this.drawMinuteHand( now.getMinutes() );
@@ -139,11 +144,22 @@ LOAD APP
 // ctx.translate(0.5, 0.5); // Anti-aliasing
 
 var analogClock = new AnalogClock();
+analogClock.resizeCanvas();
 
-function tick()
+function drawClock()
 {
-	setInterval( analogClock.draw, 1000 );
 	analogClock.draw();
 }
 
-document.addEventListener("DOMContentLoaded", function(){ tick(); });
+function tick() {
+    window.requestAnimationFrame(drawClock);
+    setTimeout(tick, 1000);
+}
+
+window.addEventListener("load", function() {
+    tick();
+});
+
+window.addEventListener("resize", function() {
+	analogClock.resizeCanvas();
+});
