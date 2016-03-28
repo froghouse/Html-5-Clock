@@ -14,7 +14,7 @@ function Hands() {
 	this.radius = clockface.height / 2.031;
 	this.length = 0;
 	this.modLength = 0;
-	this.color = 0;
+	this.color = '#000000';
 	this.lineCap = "round";
 	this.lineWidth = 10;
 	this.draw = function() {
