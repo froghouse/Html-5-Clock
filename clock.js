@@ -13,7 +13,7 @@ function Hands(canvas)
 	this.lineWidth = 0;
 	this.rotation = ( Math.PI * 2 ) / 4;
 	
-	this.draw = function(ctx)
+	this.draw = function( ctx )
 	{
 		this.length = this.radius - this.modLength;
 		
@@ -33,40 +33,36 @@ function Hands(canvas)
 function AnalogClock()
 {
 	this.canvas = document.getElementById( "clockface" );
-	this.context = this.canvas.getContext('2d');
+	this.context = this.canvas.getContext( '2d' );
 	
 	this.margin = 30;
-	this.rotation = (Math.PI * 2) / 4; // Rotate 0 rad to be at top of circle
+	this.rotation = ( Math.PI * 2 ) / 4; // Rotate 0 rad to be at top of circle
 	this.centerX = this.canvas.width / 2;
 	this.centerY = this.canvas.height / 2;
 	
-	this.secondHand = new Hands(this.canvas);
-	this.secondHand.lineWidth = 16;
-	this.secondHand.modLength = 175;
+	this.secondHand = new Hands( this.canvas );
+	this.secondHand.lineWidth = 3;
+	this.secondHand.modLength = 100;
 	this.secondHand.beginX = this.centerX;
 	this.secondHand.beginY = this.centerY;
 	this.secondHand.color = '#ff0000';
 	this.secondHand.radius = this.canvas.height / 2.031;
 	
-	this.minuteHand = new Hands(this.canvas);
+	this.minuteHand = new Hands( this.canvas );
 	this.minuteHand.lineWidth = 10;
 	this.minuteHand.modLength = 100;
 	this.minuteHand.beginX = this.centerX;
 	this.minuteHand.beginY = this.centerY;
+	this.minuteHand.color = '#101010';
 	this.minuteHand.radius = this.canvas.height / 2.031;
 	
-	this.hourHand = new Hands(this.canvas);
-	this.hourHand.lineWidth = 3;
-	this.hourHand.modLength = 100;
+	this.hourHand = new Hands( this.canvas );
+	this.hourHand.lineWidth = 16;
+	this.hourHand.modLength = 175;
 	this.hourHand.beginX = this.centerX;
 	this.hourHand.beginY = this.centerY;
+	this.hourHand.color = '#101010';
 	this.hourHand.radius = this.canvas.height / 2.031;
-	
-	this.resizeCanvas = function()
-	{
-		this.canvas.width  = window.innerWidth  - this.margin;
-		this.canvas.height = window.innerHeight - this.margin;
-	};
 	
 	this.drawSecondHand = function( s )
 	{
@@ -115,6 +111,12 @@ function AnalogClock()
 		}
 	};
 	
+	this.resizeCanvas = function()
+	{
+		this.canvas.width  = window.innerWidth  - this.margin;
+		this.canvas.height = window.innerHeight - this.margin;
+	};
+	
 	this.draw = function() 
 	{
 		var now = new Date();
@@ -144,4 +146,4 @@ function tick()
 	analogClock.draw();
 }
 
-window.addEventListener("load", function(){ tick(); });
+document.addEventListener("DOMContentLoaded", function(){ tick(); });
