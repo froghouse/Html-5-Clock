@@ -1,8 +1,8 @@
-function Hands()
+function Hands(canvas)
 {
 	this.angle = 0;
-	this.beginX = 0;
-	this.beginY = 0;
+	this.beginX = canvas.width / 2;
+	this.beginY = canvas.height / 2;
 	this.endX = 0;
 	this.endY = 0;
 	this.radius = 0;
@@ -45,6 +45,7 @@ function AnalogClock()
 	this.secondHand.modLength = 175;
 	this.secondHand.beginX = this.centerX;
 	this.secondHand.beginY = this.centerY;
+	this.secondHand.color = '#ff0000';
 	this.secondHand.radius = this.canvas.height / 2.031;
 	
 	this.minuteHand = new Hands(this.canvas);
@@ -70,19 +71,19 @@ function AnalogClock()
 	this.drawSecondHand = function( s )
 	{
 		this.secondHand.angle = ( Math.PI * 2 ) * ( s / 60 );
-		this.secondHand.draw( this.context() );
+		this.secondHand.draw( this.context );
 	};
 	
 	this.drawMinuteHand = function( m )
 	{
 		this.minuteHand.angle = ( Math.PI * 2 ) * ( m / 60 );
-		this.minuteHand.draw( this.context() );
+		this.minuteHand.draw( this.context );
 	};
 	
 	this.drawHourHand = function( h )
 	{
-		this.hourHand.angle = ( Math.PI * 2 ) * ( h / 60 );
-		this.hourHand.draw( this.context() );
+		this.hourHand.angle = ( Math.PI * 2 ) * ( h / 12 );
+		this.hourHand.draw( this.context );
 	};
 	
 	this.drawDot = function( x, y, radius, radians, color )
