@@ -11,7 +11,7 @@ function Hands(canvas)
 	this.color = '';
 	this.lineCap = '';
 	this.lineWidth = 0;
-	this.rotation = ( Math.PI * 2 ) / 2;
+	this.rotation = ( Math.PI * 2 ) / 4;
 	
 	this.draw = function( ctx )
 	{
@@ -36,13 +36,13 @@ function AnalogClock()
 	this.context = this.canvas.getContext( '2d' );
 	
 	this.margin = 30;
-	this.rotation = ( Math.PI * 2 ) / 2; // Rotate 0 rad to be at top of circle
+	this.rotation = ( Math.PI * 2 ) / 4; // Rotate 0 rad to be at top of circle
 	this.centerX = this.canvas.width / 2;
 	this.centerY = this.canvas.height / 2;
 	
 	this.secondHand = new Hands( this.canvas );
 	this.secondHand.lineWidth = 3;
-	this.secondHand.modLength = 100;
+	this.secondHand.modLength = 0;
 	this.secondHand.beginX = this.centerX;
 	this.secondHand.beginY = this.centerY;
 	this.secondHand.color = '#ff0000';
@@ -50,7 +50,7 @@ function AnalogClock()
 	
 	this.minuteHand = new Hands( this.canvas );
 	this.minuteHand.lineWidth = 10;
-	this.minuteHand.modLength = 100;
+	this.minuteHand.modLength = 0;
 	this.minuteHand.beginX = this.centerX;
 	this.minuteHand.beginY = this.centerY;
 	this.minuteHand.color = '#101010';
@@ -58,7 +58,7 @@ function AnalogClock()
 	
 	this.hourHand = new Hands( this.canvas );
 	this.hourHand.lineWidth = 16;
-	this.hourHand.modLength = 175;
+	this.hourHand.modLength = 0;
 	this.hourHand.beginX = this.centerX;
 	this.hourHand.beginY = this.centerY;
 	this.hourHand.color = '#101010';
@@ -143,8 +143,17 @@ LOAD APP
 
 // ctx.translate(0.5, 0.5); // Anti-aliasing
 
+var canvas = document.getElementById("clockface");
 var analogClock = new AnalogClock();
-analogClock.resizeCanvas();
+
+function resizeCanvas()
+{
+	canvas.width  = window.innerWidth  - 30;
+	canvas.height = window.innerHeight - 30;
+	
+	console.log(analogClock.centerX);
+	console.log(analogClock.centerY);
+}
 
 function drawClock()
 {
@@ -157,9 +166,10 @@ function tick() {
 }
 
 window.addEventListener("load", function() {
-    tick();
+    resizeCanvas();
+	tick();
 });
 
-window.addEventListener("resize", function() {
-	analogClock.resizeCanvas();
-});
+window.addEventListener( "resize", function() {
+	resizeCanvas();
+} );
