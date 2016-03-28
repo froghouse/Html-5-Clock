@@ -110,7 +110,7 @@ function AnalogClock()
 	
 	this.clearCanvas = function()
 	{
-		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+		this.context.clearRect( 0, 0, this.canvas.width, this.canvas.height );
 	}
 	
 	this.draw = function() 
@@ -135,7 +135,7 @@ LOAD APP
 
 // ctx.translate(0.5, 0.5); // Anti-aliasing
 
-var canvas = document.getElementById("clockface");
+var canvas = document.getElementById( "clockface" );
 
 var analogClock = new AnalogClock();
 
