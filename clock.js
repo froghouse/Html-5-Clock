@@ -1,8 +1,8 @@
-function Hands(canvas)
+function Hands()
 {
 	this.angle = 0;
-	this.beginX = canvas.width / 2;
-	this.beginY = canvas.height / 2;
+	this.beginX = 0;
+	this.beginY = 0;
 	this.endX = 0;
 	this.endY = 0;
 	this.radius = 0;
@@ -40,28 +40,25 @@ function AnalogClock()
 	this.centerX = this.canvas.width / 2;
 	this.centerY = this.canvas.height / 2;
 	
-	this.secondHand = new Hands( this.canvas );
+	this.secondHand = new Hands();
 	this.secondHand.lineWidth = 3;
-	this.secondHand.modLength = 0;
-	this.secondHand.beginX = this.centerX;
-	this.secondHand.beginY = this.centerY;
+	this.secondHand.modLength = 100;
 	this.secondHand.color = '#ff0000';
+	this.secondHand.lineCap = "round";
 	this.secondHand.radius = this.canvas.height / 2.031;
 	
-	this.minuteHand = new Hands( this.canvas );
+	this.minuteHand = new Hands();
 	this.minuteHand.lineWidth = 10;
-	this.minuteHand.modLength = 0;
-	this.minuteHand.beginX = this.centerX;
-	this.minuteHand.beginY = this.centerY;
+	this.minuteHand.modLength = 100;
 	this.minuteHand.color = '#101010';
+	this.minuteHand.lineCap = "round";
 	this.minuteHand.radius = this.canvas.height / 2.031;
 	
-	this.hourHand = new Hands( this.canvas );
+	this.hourHand = new Hands();
 	this.hourHand.lineWidth = 16;
-	this.hourHand.modLength = 0;
-	this.hourHand.beginX = this.centerX;
-	this.hourHand.beginY = this.centerY;
+	this.hourHand.modLength = 175;
 	this.hourHand.color = '#101010';
+	this.hourHand.lineCap = "round";
 	this.hourHand.radius = this.canvas.height / 2.031;
 	
 	this.drawSecondHand = function( s )
@@ -111,12 +108,6 @@ function AnalogClock()
 		}
 	};
 	
-	this.resizeCanvas = function()
-	{
-		this.canvas.width  = window.innerWidth  - this.margin;
-		this.canvas.height = window.innerHeight - this.margin;
-	};
-	
 	this.clearCanvas = function()
 	{
 		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -133,6 +124,7 @@ function AnalogClock()
 		this.drawSecondHand( now.getSeconds() );
 		
 		this.drawDot( this.centerX, this.centerY, 10, this.secondHand.color ); // Center dot
+		
 	};
 }
 
@@ -144,32 +136,52 @@ LOAD APP
 // ctx.translate(0.5, 0.5); // Anti-aliasing
 
 var canvas = document.getElementById("clockface");
+
 var analogClock = new AnalogClock();
 
-function resizeCanvas()
-{
-	canvas.width  = window.innerWidth  - 30;
+function tick() {
+    window.requestAnimationFrame( function() { 
+		analogClock.draw(); 
+	} );
+    setTimeout( tick, 1000 );
+}
+
+window.addEventListener( "load", function() {
+    canvas.width = window.innerWidth - 30;
 	canvas.height = window.innerHeight - 30;
 	
-	console.log(analogClock.centerX);
-	console.log(analogClock.centerY);
-}
-
-function drawClock()
-{
-	analogClock.draw();
-}
-
-function tick() {
-    window.requestAnimationFrame(drawClock);
-    setTimeout(tick, 1000);
-}
-
-window.addEventListener("load", function() {
-    resizeCanvas();
+	analogClock.centerX = canvas.width / 2;
+	analogClock.centerY = canvas.height / 2;
+	analogClock.radius = canvas.height / 2.031;
+	
+	analogClock.secondHand.beginX = analogClock.centerX;
+	analogClock.secondHand.beginY = analogClock.centerY;
+	analogClock.secondHand.radius = analogClock.radius;
+	analogClock.minuteHand.beginX = analogClock.centerX;
+	analogClock.minuteHand.beginY = analogClock.centerY;
+	analogClock.minuteHand.radius = analogClock.radius;
+	analogClock.hourHand.beginX = analogClock.centerX;
+	analogClock.hourHand.beginY = analogClock.centerY;
+	analogClock.hourHand.radius = analogClock.radius;
+	
 	tick();
-});
+} );
 
 window.addEventListener( "resize", function() {
-	resizeCanvas();
+	canvas.width = window.innerWidth - 30;
+	canvas.height = window.innerHeight - 30;
+	
+	analogClock.centerX = canvas.width / 2;
+	analogClock.centerY = canvas.height / 2;
+	analogClock.radius = canvas.height / 2.031;
+	
+	analogClock.secondHand.beginX = analogClock.centerX;
+	analogClock.secondHand.beginY = analogClock.centerY;
+	analogClock.secondHand.radius = analogClock.radius;
+	analogClock.minuteHand.beginX = analogClock.centerX;
+	analogClock.minuteHand.beginY = analogClock.centerY;
+	analogClock.minuteHand.radius = analogClock.radius;
+	analogClock.hourHand.beginX = analogClock.centerX;
+	analogClock.hourHand.beginY = analogClock.centerY;
+	analogClock.hourHand.radius = analogClock.radius;
 } );
