@@ -1,18 +1,49 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<style>
-			body {
-				background: #fefefe;
+		<script src="analog.js"></script>
+		<script src="digital.js"></script>
+		<script>
+			function tick()
+			{
+				var digitalClock = new DigitalClock();
+				digitalClock.draw( "time", "date" );
+				
+				var analogClock = new AnalogClock( "clockface" );
+				analogClock.canvas.width = window.innerWidth - 30;
+				analogClock.canvas.height = window.innerHeight - 30;
+				
+				analogClock.centerX = analogClock.canvas.width / 2;
+				analogClock.centerY = analogClock.canvas.height / 2;
+				analogClock.radius = analogClock.canvas.height / 2.031;
+				
+				analogClock.secondHand.beginX = analogClock.centerX;
+				analogClock.secondHand.beginY = analogClock.centerY;
+				analogClock.secondHand.radius = analogClock.radius;
+				analogClock.minuteHand.beginX = analogClock.centerX;
+				analogClock.minuteHand.beginY = analogClock.centerY;
+				analogClock.minuteHand.radius = analogClock.radius;
+				analogClock.hourHand.beginX = analogClock.centerX;
+				analogClock.hourHand.beginY = analogClock.centerY;
+				analogClock.hourHand.radius = analogClock.radius;
+				
+				analogClock.draw();
+				
+				setTimeout( tick, 1000 );
 			}
 			
-			canvas {
-				background: #fefefe;
-			}
-		</style>
+			window.addEventListener( "load", function() { tick(); } );
+		</script>
+		<link href='https://fonts.googleapis.com/css?family=Ubuntu+Mono' rel='stylesheet' type='text/css'>
+		<link href="digital.css" rel="stylesheet">
 	</head>
-	<body id="root">
-		<canvas id="clockface"></canvas>
-		<script src="clock.js"></script>
+	<body>
+		<div id="digital">
+			<span id="time"></span>
+			<span id="date"></span>
+		</div>
+		<div id="analog">
+			<canvas id="clockface"></canvas>
+		</div>
 	</body>
 </html>

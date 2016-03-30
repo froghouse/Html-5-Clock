@@ -1,0 +1,15 @@
+#digital {
+	text-align: center;
+}
+
+#time {
+	display: block;
+	font-size: 100px;
+	font-family: 'Ubuntu Mono', monospace;
+}
+
+#date {
+	display: block;
+	font-size: 25px;
+	font-family: 'Ubuntu Mono', monospace;
+}

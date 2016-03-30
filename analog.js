@@ -30,9 +30,9 @@ function Hands()
 	};
 }
 
-function AnalogClock()
+function AnalogClock( clockface )
 {
-	this.canvas = document.getElementById( "clockface" );
+	this.canvas = document.getElementById( clockface );
 	this.context = this.canvas.getContext( '2d' );
 	
 	this.margin = 30;
@@ -124,53 +124,5 @@ function AnalogClock()
 		this.drawSecondHand( now.getSeconds() );
 		
 		this.drawDot( this.centerX, this.centerY, 10, this.secondHand.color ); // Center dot
-		
 	};
 }
-
-
-/******** 
-LOAD APP
-*********/
-
-// ctx.translate(0.5, 0.5); // Anti-aliasing
-
-var canvas = document.getElementById( "clockface" );
-
-var analogClock = new AnalogClock();
-
-function updateGeometry()
-{
-	canvas.width = window.innerWidth - 30;
-	canvas.height = window.innerHeight - 30;
-	
-	analogClock.centerX = canvas.width / 2;
-	analogClock.centerY = canvas.height / 2;
-	analogClock.radius = canvas.height / 2.031;
-	
-	analogClock.secondHand.beginX = analogClock.centerX;
-	analogClock.secondHand.beginY = analogClock.centerY;
-	analogClock.secondHand.radius = analogClock.radius;
-	analogClock.minuteHand.beginX = analogClock.centerX;
-	analogClock.minuteHand.beginY = analogClock.centerY;
-	analogClock.minuteHand.radius = analogClock.radius;
-	analogClock.hourHand.beginX = analogClock.centerX;
-	analogClock.hourHand.beginY = analogClock.centerY;
-	analogClock.hourHand.radius = analogClock.radius;
-}
-
-function tick() {
-    window.requestAnimationFrame( function() { 
-		analogClock.draw(); 
-	} );
-    setTimeout( tick, 1000 );
-}
-
-window.addEventListener( "load", function() {
-    updateGeometry();
-	tick();
-} );
-
-window.addEventListener( "resize", function() {
-	updateGeometry();
-} );
