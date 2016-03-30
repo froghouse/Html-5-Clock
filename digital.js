@@ -95,7 +95,6 @@ function numerate( d )
 		case 2:
 		case 22:
 			return d + "<sup>nd</sup>";
-			break;
 		case 3:
 			return d + "<sup>rd</sup>";
 			break;
