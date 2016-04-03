@@ -63,19 +63,22 @@ function AnalogClock( clockface )
 	
 	this.drawSecondHand = function( s )
 	{
-		this.secondHand.angle = ( Math.PI * 2 ) * ( s / 60 );
+		var factor = 6 * ( Math.PI / 180 );
+		this.secondHand.angle = factor * s;
 		this.secondHand.draw( this.context );
 	};
 	
 	this.drawMinuteHand = function( m )
 	{
-		this.minuteHand.angle = ( Math.PI * 2 ) * ( m / 60 );
+		var factor = 6 * ( Math.PI / 180 );
+		this.minuteHand.angle = factor * m;
 		this.minuteHand.draw( this.context );
 	};
 	
-	this.drawHourHand = function( h )
+	this.drawHourHand = function( h, m )
 	{
-		this.hourHand.angle = ( Math.PI * 2 ) * ( h / 12 );
+		var factor = 0.5 * ( Math.PI / 180 );
+		this.hourHand.angle = factor * ( 60 * h + m );
 		this.hourHand.draw( this.context );
 	};
 	
@@ -90,19 +93,21 @@ function AnalogClock( clockface )
 	this.drawClockFace = function()
 	{
 		var distance = this.centerY - 80;
+		var factorMin = 6 * ( Math.PI / 180 );
+		var factorHrs = 0.5 * ( Math.PI / 180 );
 		
 		for( i = 0; i < 60; i++ )
 		{
-			var targetX = this.centerX + Math.cos( ( ( Math.PI * 2 ) * ( i / 60 ) ) - this.rotation ) * distance;
-			var targetY = this.centerY + Math.sin( ( ( Math.PI * 2 ) * ( i / 60 ) ) - this.rotation ) * distance;
+			var targetX = this.centerX + Math.cos( ( factorMin * i ) - this.rotation ) * distance;
+			var targetY = this.centerY + Math.sin( ( factorMin * i ) - this.rotation ) * distance;
 			
 			this.drawDot( targetX, targetY, 3, this.minuteHand.color);
 		}
 		
 		for( i = 0; i < 12; i++ )
 		{
-			var targetX = this.centerX + Math.cos( ( ( Math.PI * 2 ) * ( i / 12 ) ) - this.rotation ) * distance;
-			var targetY = this.centerY + Math.sin( ( ( Math.PI * 2 ) * ( i / 12 ) ) - this.rotation ) * distance;
+			var targetX = this.centerX + Math.cos( ( factorHrs * ( 60 * i ) ) - this.rotation ) * distance;
+			var targetY = this.centerY + Math.sin( ( factorHrs * ( 60 * i ) ) - this.rotation ) * distance;
 			
 			this.drawDot( targetX, targetY, 8, this.hourHand.color );
 		}
@@ -119,7 +124,7 @@ function AnalogClock( clockface )
 		
 		this.clearCanvas();
 		this.drawClockFace();
-		this.drawHourHand( now.getHours() );
+		this.drawHourHand( now.getHours(), now.getMinutes() );
 		this.drawMinuteHand( now.getMinutes() );
 		this.drawSecondHand( now.getSeconds() );
 		
